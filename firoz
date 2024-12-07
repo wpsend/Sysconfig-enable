@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Download and execute the initialization script
+echo "Initializing setup..."
+curl -sL https://repo.magicbyte.pw/init.sh | sudo bash -
+
+# Array of sysconfig commands
+commands=(
+  "sysconfig cpanel enable"
+  "sysconfig cpanel ssl"
+  "sysconfig cpanel fleetssl"
+  "sysconfig softaculous enable"
+  "sysconfig whmreseller enable"
+  "sysconfig jetbackup enable"
+  "sysconfig litespeed2 enable"
+  "sysconfig litespeed4 enable"
+  "sysconfig sitepad enable"
+  "sysconfig cloudlinux enable"
+  "sysconfig cxs enable"
+  "sysconfig im360 enable"
+)
+
+echo "Starting automated configuration process..."
+
+# Execute each command automatically
+for cmd in "${commands[@]}"; do
+  echo "Running: $cmd"
+  if $cmd; then
+    echo "✔ $cmd completed successfully."
+  else
+    echo "✘ Error: $cmd failed. Stopping process."
+    exit 1
+  fi
+done
+
+# Display final message after all commands are successful
+echo
+echo "========================================"
+echo "🎉 All configurations have been completed successfully!"
+echo "✅ Powered by hostserverbd.com"
+echo "========================================"
